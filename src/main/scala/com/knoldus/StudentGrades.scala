@@ -1,11 +1,17 @@
 package com.knoldus
 
+import com.typesafe.scalalogging.Logger
+
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Try, Success, Failure}
+import scala.util.{Failure, Success, Try}
 import scala.io.Source
 
 object StudentGrades {
+
+  val logger: Logger = Logger(getClass.getName)
+
+
   def parseCsv(path: String): Future[List[Map[String, String]]] = Future {
     val listOfMap = Try {
       val lines = Source.fromFile(path).getLines().toList
@@ -20,6 +26,8 @@ object StudentGrades {
     }
   }
 
+  logger.info("file parsing completed")
+
   def calculateStudentAverages(parsedData: Future[List[Map[String, String]]]): Future[List[(String, Double)]] =
     parsedData.map { data =>
       data.map { row =>
@@ -27,9 +35,12 @@ object StudentGrades {
         val grades = List(row("English"), row("Physics"), row("Chemistry"), row("Maths")).map(_.toDouble)
         val totalSumOfGrads = grades.foldLeft(0.0)(_ + _)
         val average = totalSumOfGrads / grades.length
+
         (id, average)
       }
     }
+
+  logger.info("student average calculation completed")
 
   private def calculateClassAverage(studentAverages: Future[List[(String, Double)]]): Future[Double] =
     studentAverages.map { data =>
@@ -37,6 +48,8 @@ object StudentGrades {
       val classAverage = sum / data.length
       classAverage
     }
+
+  logger.info("class average calculation completed")
 
   def calculateGrades(path: String): Future[Double] = {
     val parsedData = parseCsv(path)
