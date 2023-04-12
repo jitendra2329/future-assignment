@@ -32,3 +32,8 @@ This method is a convenience method that combines the functionality of parseCsv,
 ## Error Handling
 
 The program uses Try and Future to handle errors. If an error occurs during parsing or calculation, a Failure is returned, which can be handled using standard Scala error handling techniques.
+
+
+## One of the outputs-
+
+![Screenshot from 2023-04-12 11-57-35](https://user-images.githubusercontent.com/124979608/231370019-a8eeccb4-b706-4dba-b100-f1cfe40f4798.png)
