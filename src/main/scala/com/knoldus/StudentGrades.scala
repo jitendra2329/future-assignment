@@ -9,7 +9,7 @@ import scala.io.Source
 
 object StudentGrades {
 
-  val logger: Logger = Logger(getClass.getName)
+  private val logger: Logger = Logger(getClass.getName)
 
 
   def parseCsv(path: String): Future[List[Map[String, String]]] = Future {
