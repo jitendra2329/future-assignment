@@ -13,6 +13,7 @@ object StudentGrades {
       val data = lines.tail.map(_.split(",").toList)
       data.map(row => headers.zip(row).toMap)
     }
+
     listOfMap match {
       case Success(parsedData) => parsedData
       case Failure(ex) => throw new Exception(s"Failed to parse CSV: ${ex.getMessage}")
@@ -30,7 +31,7 @@ object StudentGrades {
       }
     }
 
-  def calculateClassAverage(studentAverages: Future[List[(String, Double)]]): Future[Double] =
+  private def calculateClassAverage(studentAverages: Future[List[(String, Double)]]): Future[Double] =
     studentAverages.map { data =>
       val sum = data.map(_._2).sum
       val classAverage = sum / data.length
